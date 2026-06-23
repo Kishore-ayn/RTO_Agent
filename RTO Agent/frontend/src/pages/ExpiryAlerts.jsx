@@ -20,6 +20,7 @@ import {
   getFcDueVehicles,
   getPermitDueVehicles,
   getInsuranceDueVehicles,
+  getNpDueVehicles
 } from "../services/dashboardService";
 
 export default function ExpiryAlerts() {
@@ -57,6 +58,14 @@ export default function ExpiryAlerts() {
       setRows(data);
     };
 
+  const loadNPDue =
+  async () => {
+    const data =
+      await getNpDueVehicles();
+
+    setRows(data);
+  };  
+
   const handleTabChange = (
     event,
     value
@@ -72,6 +81,9 @@ export default function ExpiryAlerts() {
 
     if (value === 2)
       loadInsuranceDue();
+
+    if (value === 3)
+      loadNPDue();
   };
 
   const columns = [
@@ -96,6 +108,108 @@ export default function ExpiryAlerts() {
         "Contact",
       width: 150,
     },
+    {
+      field: "expiryDate",
+      headerName: "Expiry Date",
+      width: 150,
+
+      valueGetter: (value, row) => {
+
+        if (tab === 0)
+          return row.FC_EXPIRY_DATE;
+
+        if (tab === 1)
+          return row.PERMIT_EXPIRY_DATE;
+
+        if (tab === 2)
+          return row.INSURANCE_EXPIRY;
+
+        if (tab === 3)
+          return row.NP_EXPIRY_DATE;
+
+        return "";
+      },
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 180,
+
+      renderCell: (params) => {
+
+        let expiryDate = null;
+
+        if (tab === 0)
+          expiryDate =
+            params.row.FC_EXPIRY_DATE;
+
+        if (tab === 1)
+          expiryDate =
+            params.row.PERMIT_EXPIRY_DATE;
+
+        if (tab === 2)
+          expiryDate =
+            params.row.INSURANCE_EXPIRY;
+
+        if (tab === 3)
+          expiryDate =
+            params.row.NP_EXPIRY_DATE;
+
+        if (!expiryDate)
+          return "No Date";
+
+        const today =
+          new Date();
+
+        const expiry =
+          new Date(expiryDate);
+
+        const diffDays =
+          Math.ceil(
+            (expiry - today) /
+            (1000 * 60 * 60 * 24)
+          );
+
+        if (diffDays < 0) {
+
+          return (
+            <span
+              style={{
+                color: "red",
+                fontWeight: "bold",
+              }}
+            >
+              Expired
+            </span>
+          );
+        }
+
+        if (diffDays <= 7) {
+
+          return (
+            <span
+              style={{
+                color: "orange",
+                fontWeight: "bold",
+              }}
+            >
+              {diffDays} Days Left
+            </span>
+          );
+        }
+
+        return (
+          <span
+            style={{
+              color: "#d4a017",
+              fontWeight: "bold",
+            }}
+          >
+            {diffDays} Days Left
+          </span>
+        );
+      },
+    }
   ];
 
   return (
@@ -124,6 +238,10 @@ export default function ExpiryAlerts() {
 
         <Tab
           label="Insurance Due"
+        />
+
+        <Tab 
+          label="NP Due" 
         />
       </Tabs>
 

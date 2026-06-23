@@ -37,3 +37,14 @@ export const getInsuranceDueVehicles =
 
     return response.data;
   };
+
+export const getNpDueVehicles =
+  async () => {
+
+    const response =
+      await api.get(
+        "/dashboard/np-due"
+      );
+
+    return response.data;
+  };  
