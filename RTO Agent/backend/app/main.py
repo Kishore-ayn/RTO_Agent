@@ -7,6 +7,7 @@ from app.routes.auth import router as auth_router
 from app.models.vehicle import Vehicle
 from app.models.user import User
 from fastapi.middleware.cors import CORSMiddleware
+from app.routes import dashboard
 
 app = FastAPI()
 
@@ -28,6 +29,7 @@ def startup_event():
 
 app.include_router(vehicle_router)
 app.include_router(auth_router)
+app.include_router(dashboard.router)
 
 
 @app.get("/")

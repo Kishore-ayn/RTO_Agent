@@ -6,6 +6,7 @@ import {
   Paper,
   TextField,
   Typography,
+  MenuItem,
 } from "@mui/material";
 
 import Layout from "../components/Layout";
@@ -252,16 +253,49 @@ const loadVehicle = async () => {
 
           <Grid item xs={12} md={6}>
             <TextField
-              fullWidth
-              label="Vehicle Type"
-              name="VEHICLE_TYPE"
-              value={
-                formData.VEHICLE_TYPE
-              }
-              onChange={
-                handleChange
-              }
-            />
+            select
+            fullWidth
+            label="Vehicle Type"
+            name="VEHICLE_TYPE"
+            value={formData.VEHICLE_TYPE}
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              Select Vehicle Type
+            </MenuItem>
+
+            <MenuItem value="Lorry">
+              Lorry
+            </MenuItem>
+
+            <MenuItem value="Truck">
+              Truck
+            </MenuItem>
+
+            <MenuItem value="Bus">
+              Bus
+            </MenuItem>
+
+            <MenuItem value="Auto">
+              Auto
+            </MenuItem>
+
+            <MenuItem value="Taxi">
+              Taxi
+            </MenuItem>
+
+            <MenuItem value="Car">
+              Car
+            </MenuItem>
+
+            <MenuItem value="Bike">
+              Bike
+            </MenuItem>
+
+            <MenuItem value="Other">
+              Other
+            </MenuItem>
+          </TextField>
           </Grid>
 
           <Grid item xs={12}>
