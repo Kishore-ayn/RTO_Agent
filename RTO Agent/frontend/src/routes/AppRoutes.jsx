@@ -4,6 +4,7 @@ import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import VehicleForm from "../pages/VehicleForm";
 import VehicleList from "../pages/VehicleList";
+import ExpiryAlerts from "../pages/ExpiryAlerts";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -46,6 +47,15 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <VehicleList />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/expiry-alerts"
+        element={
+          <ProtectedRoute>
+            <ExpiryAlerts />
           </ProtectedRoute>
         }
       />

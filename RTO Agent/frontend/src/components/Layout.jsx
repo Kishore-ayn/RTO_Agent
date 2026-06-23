@@ -68,6 +68,20 @@ export default function Layout({ children }) {
                 />
               </ListItemButton>
             </ListItem>
+
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() =>
+                  navigate(
+                    "/expiry-alerts"
+                  )
+                }
+              >
+                <ListItemText
+                  primary="Expiry Alerts"
+                />
+              </ListItemButton>
+            </ListItem>
           </List>
         </Drawer>
 
