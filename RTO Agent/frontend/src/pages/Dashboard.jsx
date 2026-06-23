@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 
 import Layout from "../components/Layout";
 
+import { useNavigate } from "react-router-dom";
+
 import {
   getDashboardStats,
 } from "../services/dashboardService";
@@ -23,6 +25,8 @@ export default function Dashboard() {
       permit_due: 0,
       insurance_due: 0,
     });
+  
+  const navigate = useNavigate();  
 
   useEffect(() => {
     loadStats();
@@ -73,7 +77,16 @@ export default function Dashboard() {
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <Card>
+          <Card
+              sx={{
+                cursor: "pointer",
+              }}
+              onClick={() =>
+                navigate(
+                  "/expiry-alerts?tab=fc"
+                )
+              }
+            >
             <CardContent>
               <Typography variant="h6">
                 FC Due
@@ -87,7 +100,16 @@ export default function Dashboard() {
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <Card>
+          <Card
+              sx={{
+                cursor: "pointer",
+              }}
+              onClick={() =>
+                navigate(
+                  "/expiry-alerts?tab=np"
+                )
+              }
+            >
             <CardContent>
               <Typography variant="h6">
                 NP Due
@@ -101,7 +123,16 @@ export default function Dashboard() {
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <Card>
+          <Card
+            sx={{
+              cursor: "pointer",
+            }}
+            onClick={() =>
+              navigate(
+                "/expiry-alerts?tab=permit"
+              )
+            }
+            >
             <CardContent>
               <Typography variant="h6">
                 Permit Due
@@ -123,7 +154,16 @@ export default function Dashboard() {
       >
 
         <Grid item xs={12} md={3}>
-          <Card>
+          <Card
+              sx={{
+                cursor: "pointer",
+              }}
+              onClick={() =>
+                navigate(
+                  "/expiry-alerts?tab=insurance"
+                )
+              }
+            >
             <CardContent>
               <Typography variant="h6">
                 Insurance Due

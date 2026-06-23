@@ -23,6 +23,10 @@ import {
   getNpDueVehicles
 } from "../services/dashboardService";
 
+import {
+  useSearchParams,
+} from "react-router-dom";
+
 export default function ExpiryAlerts() {
 
   const [tab, setTab] =
@@ -31,8 +35,40 @@ export default function ExpiryAlerts() {
   const [rows, setRows] =
     useState([]);
 
+  const [searchParams] =
+  useSearchParams();  
+
   useEffect(() => {
+
+    const tabName =
+      searchParams.get("tab");
+
+    if (tabName === "fc") {
+      setTab(0);
+      loadFcDue();
+      return;
+    }
+
+    if (tabName === "permit") {
+      setTab(1);
+      loadPermitDue();
+      return;
+    }
+
+    if (tabName === "insurance") {
+      setTab(2);
+      loadInsuranceDue();
+      return;
+    }
+
+    if (tabName === "np") {
+      setTab(3);
+      loadNPDue();
+      return;
+    }
+
     loadFcDue();
+
   }, []);
 
   const loadFcDue = async () => {
