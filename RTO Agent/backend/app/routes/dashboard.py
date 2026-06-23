@@ -57,3 +57,53 @@ def get_dashboard_stats(
         "permit_due": permit_due,
         "insurance_due": insurance_due
     }
+    
+@router.get("/fc-due")
+def get_fc_due_vehicles(
+    db: Session = Depends(get_db)
+):
+
+    today = date.today()
+
+    vehicles = db.query(
+        Vehicle
+    ).filter(
+        Vehicle.FC_EXPIRY_DATE != None,
+        Vehicle.FC_EXPIRY_DATE <= today
+    ).all()
+
+    return vehicles
+
+@router.get("/permit-due")
+def get_permit_due_vehicles(
+    db: Session = Depends(get_db)
+):
+
+    today = date.today()
+
+    vehicles = db.query(
+        Vehicle
+    ).filter(
+        Vehicle.PERMIT_EXPIRY_DATE != None,
+        Vehicle.PERMIT_EXPIRY_DATE <= today
+    ).all()
+
+    return vehicles
+
+@router.get("/insurance-due")
+def get_insurance_due_vehicles(
+    db: Session = Depends(get_db)
+):
+
+    today = date.today()
+
+    vehicles = db.query(
+        Vehicle
+    ).filter(
+        Vehicle.INSURANCE_EXPIRY != None,
+        Vehicle.INSURANCE_EXPIRY <= today
+    ).all()
+
+    return vehicles
+
+    
