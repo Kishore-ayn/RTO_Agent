@@ -15,6 +15,7 @@ import Layout from "../components/Layout";
 
 import {
   getVehicles,
+  deleteVehicle,
 } from "../services/vehicleService";
 
 export default function VehicleList() {
@@ -38,6 +39,42 @@ export default function VehicleList() {
       setVehicles(data);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleDelete = async (
+    vehicleId
+  ) => {
+
+    const confirmDelete =
+      window.confirm(
+        "Are you sure you want to delete this vehicle?"
+      );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+
+      await deleteVehicle(
+        vehicleId
+      );
+
+      alert(
+        "Vehicle Deleted Successfully"
+      );
+
+      loadVehicles();
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Error Deleting Vehicle"
+      );
+
     }
   };
 
@@ -78,24 +115,40 @@ export default function VehicleList() {
       width: 150,
     },
     {
-    field: "actions",
-    headerName: "Actions",
-    width: 150,
+      field: "actions",
+      headerName: "Actions",
+      width: 220,
 
-    renderCell: (params) => (
-      <Button
-        variant="contained"
-        size="small"
-        onClick={() =>
-          navigate(
-            `/vehicle-entry/${params.row.VEHICLE_ID}`
-          )
-        }
-      >
-        Edit
-      </Button>
-    ),
-}
+      renderCell: (params) => (
+        <>
+          <Button
+            variant="contained"
+            size="small"
+            sx={{ mr: 1 }}
+            onClick={() =>
+              navigate(
+                `/vehicle-entry/${params.row.VEHICLE_ID}`
+              )
+            }
+          >
+            Edit
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            onClick={() =>
+              handleDelete(
+                params.row.VEHICLE_ID
+              )
+            }
+          >
+            Delete
+          </Button>
+        </>
+      ),
+    }
   ];
 
   const filteredVehicles =

@@ -35,14 +35,22 @@ export default function VehicleForm() {
     useState({
       VEHICLE_NUMBER: "",
       CHASSIS_NUMBER: "",
+
       OWNER_NAME: "",
       OWNER_CONTACT: "",
       OWNER_WHATSAPP: "",
+
       VEHICLE_TYPE: "",
       ENGINE_NUMBER: "",
+
+      FC_EXPIRY_DATE: "",
+      NP_EXPIRY_DATE: "",
+      PERMIT_EXPIRY_DATE: "",
+      INSURANCE_EXPIRY: "",
+
       ADDRESS: "",
       REMARKS: "",
-    });
+  });
 
 useEffect(() => {
   if (id) {
@@ -76,6 +84,26 @@ const loadVehicle = async () => {
 
       ENGINE_NUMBER:
         data.ENGINE_NUMBER || "",
+
+      FC_EXPIRY_DATE:
+        data.FC_EXPIRY_DATE
+          ? data.FC_EXPIRY_DATE.substring(0, 10)
+          : "",
+
+      NP_EXPIRY_DATE:
+        data.NP_EXPIRY_DATE
+          ? data.NP_EXPIRY_DATE.substring(0, 10)
+          : "",
+
+      PERMIT_EXPIRY_DATE:
+        data.PERMIT_EXPIRY_DATE
+          ? data.PERMIT_EXPIRY_DATE.substring(0, 10)
+          : "",
+
+      INSURANCE_EXPIRY:
+        data.INSURANCE_EXPIRY
+          ? data.INSURANCE_EXPIRY.substring(0, 10)
+          : "",
 
       ADDRESS:
         data.ADDRESS || "",
@@ -247,6 +275,62 @@ const loadVehicle = async () => {
               onChange={
                 handleChange
               }
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              type="date"
+              label="FC Expiry Date"
+              name="FC_EXPIRY_DATE"
+              value={formData.FC_EXPIRY_DATE}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              type="date"
+              label="NP Expiry Date"
+              name="NP_EXPIRY_DATE"
+              value={formData.NP_EXPIRY_DATE}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              type="date"
+              label="Permit Expiry Date"
+              name="PERMIT_EXPIRY_DATE"
+              value={formData.PERMIT_EXPIRY_DATE}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              type="date"
+              label="Insurance Expiry"
+              name="INSURANCE_EXPIRY"
+              value={formData.INSURANCE_EXPIRY}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
           </Grid>
 
