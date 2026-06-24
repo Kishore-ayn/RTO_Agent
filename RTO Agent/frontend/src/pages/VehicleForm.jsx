@@ -1,28 +1,10 @@
 import { useState } from "react";
-
-import {
-  Button,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-  MenuItem,
-} from "@mui/material";
-
+import {  Button,  Grid,  Paper,  TextField,  Typography,  MenuItem, Divider,Box, } from "@mui/material";
 import Layout from "../components/Layout";
-
 import { useEffect } from "react";
+import {  useNavigate,  useParams,} from "react-router-dom";
+import {  createVehicle,  updateVehicle,  getVehicleById,} from "../services/vehicleService";
 
-import {
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-
-import {
-  createVehicle,
-  updateVehicle,
-  getVehicleById,
-} from "../services/vehicleService";
 
 export default function VehicleForm() {
 
@@ -53,69 +35,69 @@ export default function VehicleForm() {
       REMARKS: "",
   });
 
-useEffect(() => {
-  if (id) {
-    loadVehicle();
-  }
-}, [id]);
+  useEffect(() => {
+    if (id) {
+      loadVehicle();
+    }
+  }, [id]);
 
-const loadVehicle = async () => {
-  try {
-    const data =
-      await getVehicleById(id);
+  const loadVehicle = async () => {
+    try {
+      const data =
+        await getVehicleById(id);
 
-    setFormData({
-      VEHICLE_NUMBER:
-        data.VEHICLE_NUMBER || "",
+      setFormData({
+        VEHICLE_NUMBER:
+          data.VEHICLE_NUMBER || "",
 
-      CHASSIS_NUMBER:
-        data.CHASSIS_NUMBER || "",
+        CHASSIS_NUMBER:
+          data.CHASSIS_NUMBER || "",
 
-      OWNER_NAME:
-        data.OWNER_NAME || "",
+        OWNER_NAME:
+          data.OWNER_NAME || "",
 
-      OWNER_CONTACT:
-        data.OWNER_CONTACT || "",
+        OWNER_CONTACT:
+          data.OWNER_CONTACT || "",
 
-      OWNER_WHATSAPP:
-        data.OWNER_WHATSAPP || "",
+        OWNER_WHATSAPP:
+          data.OWNER_WHATSAPP || "",
 
-      VEHICLE_TYPE:
-        data.VEHICLE_TYPE || "",
+        VEHICLE_TYPE:
+          data.VEHICLE_TYPE || "",
 
-      ENGINE_NUMBER:
-        data.ENGINE_NUMBER || "",
+        ENGINE_NUMBER:
+          data.ENGINE_NUMBER || "",
 
-      FC_EXPIRY_DATE:
-        data.FC_EXPIRY_DATE
-          ? data.FC_EXPIRY_DATE.substring(0, 10)
-          : "",
+        FC_EXPIRY_DATE:
+          data.FC_EXPIRY_DATE
+            ? data.FC_EXPIRY_DATE.substring(0, 10)
+            : "",
 
-      NP_EXPIRY_DATE:
-        data.NP_EXPIRY_DATE
-          ? data.NP_EXPIRY_DATE.substring(0, 10)
-          : "",
+        NP_EXPIRY_DATE:
+          data.NP_EXPIRY_DATE
+            ? data.NP_EXPIRY_DATE.substring(0, 10)
+            : "",
 
-      PERMIT_EXPIRY_DATE:
-        data.PERMIT_EXPIRY_DATE
-          ? data.PERMIT_EXPIRY_DATE.substring(0, 10)
-          : "",
+        PERMIT_EXPIRY_DATE:
+          data.PERMIT_EXPIRY_DATE
+            ? data.PERMIT_EXPIRY_DATE.substring(0, 10)
+            : "",
 
-      INSURANCE_EXPIRY:
-        data.INSURANCE_EXPIRY
-          ? data.INSURANCE_EXPIRY.substring(0, 10)
-          : "",
+        INSURANCE_EXPIRY:
+          data.INSURANCE_EXPIRY
+            ? data.INSURANCE_EXPIRY.substring(0, 10)
+            : "",
 
-      ADDRESS:
-        data.ADDRESS || "",
+        ADDRESS:
+          data.ADDRESS || "",
 
-      REMARKS:
-        data.REMARKS || "",
-    });
-  } catch (error) {
-    console.error(error);
-  }
-  };  
+        REMARKS:
+          data.REMARKS || "",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    };  
 
 
   const handleChange = (e) => {
@@ -165,21 +147,37 @@ const loadVehicle = async () => {
 
   return (
     <Layout>
-      <Paper sx={{ p: 3 }}>
+      <Paper elevation={4}  sx={{  p: 4,  borderRadius: 4, }}>
+
         <Typography
           variant="h5"
+          fontWeight="bold"
           gutterBottom
         >
-        {
-          isEditMode
-          ? "Edit Vehicle"
-          : "Vehicle Entry"
-        }
+          Vehicle Registration
         </Typography>
 
-        <Grid
-          container
-          spacing={2}
+        <Typography
+          color="text.secondary"
+          sx={{ mb: 3 }}
+        >
+          Create or update vehicle records
+        </Typography>
+
+        <Box sx={{ mb: 1 }}>
+
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+          >
+            Vehicle Information
+          </Typography>
+
+          <Divider sx={{ mt: 1 }} />
+
+        </Box>
+
+        <Grid container spacing={2} sx={{ mb: 2 }}
         >
           <Grid item xs={12} md={6}>
             <TextField
@@ -208,6 +206,86 @@ const loadVehicle = async () => {
               }
             />
           </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              label="Engine Number"
+              name="ENGINE_NUMBER"
+              value={
+                formData.ENGINE_NUMBER
+              }
+              onChange={
+                handleChange
+              }
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+            select
+            fullWidth
+            label="Vehicle Type"
+            name="VEHICLE_TYPE"
+            value={formData.VEHICLE_TYPE}
+            onChange={handleChange}
+
+          >
+            <MenuItem value="">
+              Select Vehicle Type
+            </MenuItem>
+
+            <MenuItem value="Lorry">
+              Lorry
+            </MenuItem>
+
+            <MenuItem value="Truck">
+              Truck
+            </MenuItem>
+
+            <MenuItem value="Bus">
+              Bus
+            </MenuItem>
+
+            <MenuItem value="Auto">
+              Auto
+            </MenuItem>
+
+            <MenuItem value="Taxi">
+              Taxi
+            </MenuItem>
+
+            <MenuItem value="Car">
+              Car
+            </MenuItem>
+
+            <MenuItem value="Bike">
+              Bike
+            </MenuItem>
+
+            <MenuItem value="Other">
+              Other
+            </MenuItem>
+          </TextField>
+          </Grid>
+        </Grid>   
+
+
+        <Box sx={{ mb: 1 }}>
+
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+          >
+            Owner Information
+          </Typography>
+
+          <Divider sx={{ mb: 1 }} />
+
+        </Box>
+
+
+        <Grid container spacing={2} sx={{ mb: 2 }}>
 
           <Grid item xs={12} md={6}>
             <TextField
@@ -251,68 +329,23 @@ const loadVehicle = async () => {
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <TextField
-            select
-            fullWidth
-            label="Vehicle Type"
-            name="VEHICLE_TYPE"
-            value={formData.VEHICLE_TYPE}
-            onChange={handleChange}
+        </Grid>      
+
+        <Box sx={{ mb: 1 }}>
+
+          <Typography
+            variant="h6"
+            fontWeight="bold"
           >
-            <MenuItem value="">
-              Select Vehicle Type
-            </MenuItem>
+            Expiry Information
+          </Typography>
 
-            <MenuItem value="Lorry">
-              Lorry
-            </MenuItem>
+          <Divider sx={{ mb: 1 }} />
 
-            <MenuItem value="Truck">
-              Truck
-            </MenuItem>
+        </Box>
 
-            <MenuItem value="Bus">
-              Bus
-            </MenuItem>
-
-            <MenuItem value="Auto">
-              Auto
-            </MenuItem>
-
-            <MenuItem value="Taxi">
-              Taxi
-            </MenuItem>
-
-            <MenuItem value="Car">
-              Car
-            </MenuItem>
-
-            <MenuItem value="Bike">
-              Bike
-            </MenuItem>
-
-            <MenuItem value="Other">
-              Other
-            </MenuItem>
-          </TextField>
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Engine Number"
-              name="ENGINE_NUMBER"
-              value={
-                formData.ENGINE_NUMBER
-              }
-              onChange={
-                handleChange
-              }
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
+        <Grid container spacing={2} sx={{ mb: 2 }}>      
+          <Grid item xs={12} lg={3} md={6}>
             <TextField
               fullWidth
               type="date"
@@ -324,7 +357,7 @@ const loadVehicle = async () => {
                 shrink: true,
               }}
             />
-          </Grid>
+          </Grid>         
 
           <Grid item xs={12} md={6}>
             <TextField
@@ -368,6 +401,22 @@ const loadVehicle = async () => {
             />
           </Grid>
 
+        </Grid>
+
+        <Box sx={{ mb: 1 }}>
+
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+          >
+            Other Information
+          </Typography>
+
+          <Divider sx={{ mb: 1 }} />
+
+        </Box>  
+
+        <Grid container spacing={2} sx={{ mb: 2 }}>     
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -386,7 +435,7 @@ const loadVehicle = async () => {
             <TextField
               fullWidth
               multiline
-              rows={4}
+              rows={1}
               label="Remarks"
               name="REMARKS"
               value={
@@ -401,14 +450,18 @@ const loadVehicle = async () => {
           <Grid item xs={12}>
             <Button
               variant="contained"
-              onClick={
-                handleSubmit
-              }
+              size="large"
+              type="submit"
+              sx={{
+                mt: 1,
+                px: 4,
+                borderRadius: 3,
+              }}
             >
               Save Vehicle
             </Button>
           </Grid>
-        </Grid>
+        </Grid>  
       </Paper>
     </Layout>
   );
