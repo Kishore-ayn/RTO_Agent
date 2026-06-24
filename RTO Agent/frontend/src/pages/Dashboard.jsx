@@ -1,19 +1,67 @@
-import {
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-} from "@mui/material";
-
+import {  Card,  CardContent,  Grid,  Typography,} from "@mui/material";
 import { useEffect, useState } from "react";
-
 import Layout from "../components/Layout";
-
 import { useNavigate } from "react-router-dom";
+import {  getDashboardStats,} from "../services/dashboardService";
+import {  DirectionsCar,  Security,  Description,  Warning,  LocalShipping,} from "@mui/icons-material";
+import {  Box,} from "@mui/material";
 
-import {
-  getDashboardStats,
-} from "../services/dashboardService";
+
+function DashboardCard({
+  title,
+  value,
+  icon,
+  onClick,
+}) {
+  return (
+    <Card
+      onClick={onClick}
+      sx={{
+        cursor: "pointer",
+        borderRadius: 4,
+        boxShadow: 3,
+        transition: "all 0.3s ease",
+
+        "&:hover": {
+          transform: "translateY(-5px)",
+          boxShadow: 8,
+        },
+      }}
+    >
+      <CardContent>
+
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+
+          <Box>
+
+            <Typography
+              color="text.secondary"
+              gutterBottom
+            >
+              {title}
+            </Typography>
+
+            <Typography
+              variant="h4"
+              fontWeight="bold"
+            >
+              {value}
+            </Typography>
+
+          </Box>
+
+          {icon}
+
+        </Box>
+
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function Dashboard() {
 
@@ -49,134 +97,113 @@ export default function Dashboard() {
 
   return (
     <Layout>
+      <Box mb={4}>
 
-      <Typography
-        variant="h4"
-        gutterBottom
-      >
-        Dashboard
-      </Typography>
+        <Typography
+          variant="h4"
+          fontWeight="bold"
+        >
+          RTO Management Dashboard
+        </Typography>
+
+        <Typography
+          color="text.secondary"
+        >
+          Manage vehicle renewals, permits,
+          insurance and customer records.
+        </Typography>
+
+      </Box>
 
       <Grid
         container
         spacing={3}
       >
 
-        <Grid item xs={12} md={3}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6">
-                Total Vehicles
-              </Typography>
-
-              <Typography variant="h4">
-                {stats.total_vehicles}
-              </Typography>
-            </CardContent>
-          </Card>
+        <Grid item xs={12} sm={6} md={3}>
+          <DashboardCard
+            title="Total Vehicles"
+            value={stats.total_vehicles}
+            icon={
+              <DirectionsCar
+                fontSize="large"
+              />
+            }
+          />
         </Grid>
 
-        <Grid item xs={12} md={3}>
-          <Card
-              sx={{
-                cursor: "pointer",
-              }}
-              onClick={() =>
-                navigate(
-                  "/expiry-alerts?tab=fc"
-                )
-              }
-            >
-            <CardContent>
-              <Typography variant="h6">
-                FC Due
-              </Typography>
-
-              <Typography variant="h4">
-                {stats.fc_due}
-              </Typography>
-            </CardContent>
-          </Card>
+        <Grid item xs={12} sm={6} md={3}>
+          <DashboardCard
+            title="FC Due"
+            value={stats.fc_due}
+            icon={
+              <Security
+                fontSize="large"
+              />
+            }
+            onClick={() =>
+              navigate(
+                "/expiry-alerts?tab=fc"
+              )
+            }
+          />
         </Grid>
 
-        <Grid item xs={12} md={3}>
-          <Card
-              sx={{
-                cursor: "pointer",
-              }}
-              onClick={() =>
-                navigate(
-                  "/expiry-alerts?tab=np"
-                )
-              }
-            >
-            <CardContent>
-              <Typography variant="h6">
-                NP Due
-              </Typography>
 
-              <Typography variant="h4">
-                {stats.np_due}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
 
-        <Grid item xs={12} md={3}>
-          <Card
-            sx={{
-              cursor: "pointer",
-            }}
+        <Grid item xs={12} sm={6} md={3}>
+          <DashboardCard
+            title="Permit Due"
+            value={stats.permit_due}
+            icon={
+              <Description
+                fontSize="large"
+              />
+            }
             onClick={() =>
               navigate(
                 "/expiry-alerts?tab=permit"
               )
             }
-            >
-            <CardContent>
-              <Typography variant="h6">
-                Permit Due
-              </Typography>
-
-              <Typography variant="h4">
-                {stats.permit_due}
-              </Typography>
-            </CardContent>
-          </Card>
+          />
         </Grid>
 
-      </Grid>
 
-      <Grid
-        container
-        spacing={3}
-        sx={{ mt: 1 }}
-      >
-
-        <Grid item xs={12} md={3}>
-          <Card
-              sx={{
-                cursor: "pointer",
-              }}
-              onClick={() =>
-                navigate(
-                  "/expiry-alerts?tab=insurance"
-                )
-              }
-            >
-            <CardContent>
-              <Typography variant="h6">
-                Insurance Due
-              </Typography>
-
-              <Typography variant="h4">
-                {stats.insurance_due}
-              </Typography>
-            </CardContent>
-          </Card>
+        <Grid item xs={12} sm={6} md={3}>
+          <DashboardCard
+            title="Insurance Due"
+            value={stats.insurance_due}
+            icon={
+              <Warning
+                fontSize="large"
+              />
+            }
+            onClick={() =>
+              navigate(
+                "/expiry-alerts?tab=insurance"
+              )
+            }
+          />
         </Grid>
 
-      </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <DashboardCard
+            title="NP Due"
+            value={stats.np_due}
+            icon={
+              <LocalShipping
+                fontSize="large"
+              />
+            }
+            onClick={() =>
+              navigate(
+                "/expiry-alerts?tab=np"
+              )
+            }
+          />
+        </Grid>
+
+      </Grid>  
 
     </Layout>
   );
