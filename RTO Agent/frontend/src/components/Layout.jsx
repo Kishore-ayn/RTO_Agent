@@ -1,57 +1,79 @@
 import {  Box,  Drawer,  List,  ListItem,  ListItemButton,  ListItemText, ListItemIcon,} from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
-import {  Dashboard,  DirectionsCar,  ListAlt,  Warning,} from "@mui/icons-material";
+
+import {  DashboardCustomize,  DirectionsCar,  ListAlt,  Warning,  } from "@mui/icons-material";
 import {  useLocation,} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
-const drawerWidth = 240;
+
 
 export default function Layout({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
 
   return (
-    <>
-      <Navbar />
+
 
       <Box sx={{ display: "flex" }}>
         
-        <Drawer
-          variant="permanent"
+      <Drawer
+        variant="permanent"
+        sx={{
+          width: 280,
+
+          flexShrink: 0,
+
+          "& .MuiDrawer-paper": {
+            width: 280,
+
+            overflowX: "hidden",
+            transition:
+              "width 0.3s ease",
+
+            boxSizing: "border-box",
+            backgroundColor: "#FFFFFF",
+
+            boxShadow:
+              "0 8px 30px rgba(0,0,0,0.06)",
+
+            borderRight: "none",
+          },
+        }}
+      >
+        <Box
           sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
+            p: 2,
+            borderBottom: "1px solid #eee",
           }}
         >
-          <Box
-            sx={{
-              p: 3,
-              textAlign: "center",
-              borderBottom:
-                "1px solid #eee",
-            }}
-          >
+        <Box
+          sx={{
+            width: 56,
+            height: 56,
+            borderRadius: "16px",
+            background:
+              "linear-gradient(135deg,#7C3AED,#A855F7)",
+            color: "#fff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 800,
+            fontSize: "1.2rem",
+            mb: 2,
+          }}
+        >
+          PT
+        </Box>
 
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-            >
-              RTO Agent
-            </Typography>
+        <Typography
+          variant="h6"
+          fontWeight={800}
+        >
+          Prakash Transport
+        </Typography>
 
-            <Typography
-              variant="body2"
-              color="text.secondary"
-            >
-              Management System
-            </Typography>
 
-          </Box>
+        </Box>
           <List>
             <ListItem disablePadding>
               <ListItemButton
@@ -60,19 +82,40 @@ export default function Layout({ children }) {
                   "/dashboard"
                 }
                 onClick={() =>
-                  navigate(
-                    "/dashboard"
-                  )
+                  navigate("/dashboard")
                 }
+                sx={{
+                  mx: 1,
+                  mb: 1,
+                  borderRadius: 3,
+
+                  "&.Mui-selected": {
+                    background:
+                      "linear-gradient(135deg,#7C3AED,#A855F7)",
+                    color: "#fff",
+                  },
+
+                  "&.Mui-selected .MuiListItemIcon-root":
+                    {
+                      color: "#fff",
+                    },
+                }}
               >
 
-                <ListItemIcon>
-                  <Dashboard />
+                <ListItemIcon
+                  sx={{
+                    minWidth: 40,
+                    justifyContent: "center",
+                  }}
+                >
+                  <DashboardCustomize />
                 </ListItemIcon>
 
-                <ListItemText
-                  primary="Dashboard"
-                />
+
+                  <ListItemText
+                    primary="Dashboard"
+                  />
+
 
               </ListItemButton>
             </ListItem>
@@ -80,22 +123,46 @@ export default function Layout({ children }) {
             <ListItem disablePadding>
               <ListItemButton
                 selected={
-                  location.pathname ===
-                  "/vehicle-entry"
+                  location.pathname.startsWith(
+                    "/vehicle-entry"
+                  )
                 }
                 onClick={() =>
                   navigate(
                     "/vehicle-entry"
                   )
                 }
+                  sx={{
+                  mx: 1,
+                  mb: 1,
+                  borderRadius: 3,
+
+                  "&.Mui-selected": {
+                    background:
+                      "linear-gradient(135deg,#7C3AED,#A855F7)",
+                    color: "#fff",
+                  },
+
+                  "&.Mui-selected .MuiListItemIcon-root":
+                    {
+                      color: "#fff",
+                    },
+                }}
               >
-                <ListItemIcon>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 40,
+                    justifyContent: "center",
+                  }}
+                >
                   <DirectionsCar />
                 </ListItemIcon>
 
-                <ListItemText
-                  primary="Vehicle Entry"
-                />
+
+                    <ListItemText
+                      primary="Vehicle Entry"
+                    />
+
               </ListItemButton>
             </ListItem>
 
@@ -110,40 +177,85 @@ export default function Layout({ children }) {
                     "/vehicle-list"
                   )
                 }
+                sx={{
+                  mx: 1,
+                  mb: 1,
+                  borderRadius: 3,
+
+                  "&.Mui-selected": {
+                    background:
+                      "linear-gradient(135deg,#7C3AED,#A855F7)",
+                    color: "#fff",
+                  },
+
+                  "&.Mui-selected .MuiListItemIcon-root":
+                    {
+                      color: "#fff",
+                    },
+                }}
               >
-                <ListItemIcon>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 40,
+                    justifyContent: "center",
+                  }}
+                >
                   <ListAlt />
                 </ListItemIcon>
 
-                <ListItemText
-                  primary="Vehicle List"
-                />
+
+                    <ListItemText
+                      primary="Vehicle List"
+                    />
+
               </ListItemButton>
             </ListItem>
 
-            <ListItem disablePadding>
-              <ListItemButton
-                selected={
-                  location.pathname ===
+          <ListItem disablePadding>
+            <ListItemButton
+              selected={
+                location.pathname ===
+                "/expiry-alerts"
+              }
+              onClick={() =>
+                navigate(
                   "/expiry-alerts"
-                }
-                onClick={() =>
-                  navigate(
-                    "/expiry-alerts"
-                  )
-                }
+                )
+              }
+              sx={{
+                mx: 1,
+                mb: 1,
+                borderRadius: 3,
+
+                "&.Mui-selected": {
+                  background:
+                    "linear-gradient(135deg,#7C3AED,#A855F7)",
+                  color: "#fff",
+                },
+
+                "&.Mui-selected .MuiListItemIcon-root":
+                  {
+                    color: "#fff",
+                  },
+              }}
+            >
+
+              <ListItemIcon
+                sx={{
+                  minWidth: 40,
+                  justifyContent: "center",
+                }}
               >
+                <Warning />
+              </ListItemIcon>
 
-                <ListItemIcon>
-                  <Warning />
-                </ListItemIcon>
 
-                <ListItemText
-                  primary="Expiry Alerts"
-                />
+                  <ListItemText
+                    primary="Expiry Alerts"
+                  />
 
-              </ListItemButton>
-            </ListItem>
+            </ListItemButton>
+          </ListItem>
           </List>
         </Drawer>
 
@@ -151,12 +263,14 @@ export default function Layout({ children }) {
           component="main"
           sx={{
             flexGrow: 1,
-            p: 3,
+            p: 4,
+            backgroundColor: "#F8FAFC",
+            minHeight: "100vh",
           }}
         >
           {children}
         </Box>
       </Box>
-    </>
+    
   );
 }

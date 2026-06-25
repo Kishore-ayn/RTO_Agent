@@ -353,8 +353,10 @@ export default function VehicleForm() {
               name="FC_EXPIRY_DATE"
               value={formData.FC_EXPIRY_DATE}
               onChange={handleChange}
-              InputLabelProps={{
-                shrink: true,
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
               }}
             />
           </Grid>         
@@ -367,8 +369,10 @@ export default function VehicleForm() {
               name="NP_EXPIRY_DATE"
               value={formData.NP_EXPIRY_DATE}
               onChange={handleChange}
-              InputLabelProps={{
-                shrink: true,
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
               }}
             />
           </Grid>
@@ -381,8 +385,10 @@ export default function VehicleForm() {
               name="PERMIT_EXPIRY_DATE"
               value={formData.PERMIT_EXPIRY_DATE}
               onChange={handleChange}
-              InputLabelProps={{
-                shrink: true,
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
               }}
             />
           </Grid>
@@ -395,8 +401,10 @@ export default function VehicleForm() {
               name="INSURANCE_EXPIRY"
               value={formData.INSURANCE_EXPIRY}
               onChange={handleChange}
-              InputLabelProps={{
-                shrink: true,
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
               }}
             />
           </Grid>
@@ -457,6 +465,7 @@ export default function VehicleForm() {
                 px: 4,
                 borderRadius: 3,
               }}
+              onClick={handleSubmit}
             >
               Save Vehicle
             </Button>

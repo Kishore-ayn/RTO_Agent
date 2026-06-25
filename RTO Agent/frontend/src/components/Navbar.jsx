@@ -1,6 +1,5 @@
 import {
-  AppBar,
-  Toolbar,
+  Box,
   Typography,
   Button,
 } from "@mui/material";
@@ -19,22 +18,44 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography
-          variant="h6"
-          sx={{ flexGrow: 1 }}
-        >
-          RTO Agent Management
-        </Typography>
+<Box
+  sx={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    mb: 5,
+  }}
+>
+  <Box>
+    <Typography
+      variant="h3"
+      fontWeight={800}
+    >
+      Welcome Back 👋
+    </Typography>
 
-        <Button
-          color="inherit"
-          onClick={handleLogout}
-        >
-          Logout
-        </Button>
-      </Toolbar>
-    </AppBar>
+    <Typography
+      color="text.secondary"
+      sx={{ mt: 1 }}
+    >
+      Monitor vehicle renewals,
+      permits and insurance status.
+    </Typography>
+  </Box>
+
+  <Button
+    variant="contained"
+    onClick={handleLogout}
+    sx={{
+      borderRadius: "14px",
+      px: 3,
+      py: 1.2,
+      background:
+        "linear-gradient(135deg,#7C3AED,#9333EA)",
+    }}
+  >
+    Logout
+  </Button>
+</Box>
   );
 }

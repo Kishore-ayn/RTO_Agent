@@ -22,34 +22,34 @@ def get_dashboard_stats(
         Vehicle
     ).count()
 
-    next_30_days = today + timedelta(days=30)
+    next_15_days = today + timedelta(days=15)
 
     fc_due = db.query(
         Vehicle
     ).filter(
-        Vehicle.FC_EXPIRY_DATE != None,
-        Vehicle.FC_EXPIRY_DATE <= next_30_days
+        Vehicle.FC_EXPIRY_DATE >= today,
+        Vehicle.FC_EXPIRY_DATE <= next_15_days
     ).count()
 
     np_due = db.query(
         Vehicle
     ).filter(
-        Vehicle.NP_EXPIRY_DATE != None,
-        Vehicle.NP_EXPIRY_DATE <= next_30_days
+        Vehicle.NP_EXPIRY_DATE >= today,
+        Vehicle.NP_EXPIRY_DATE <= next_15_days
     ).count()
 
     permit_due = db.query(
         Vehicle
     ).filter(
-        Vehicle.PERMIT_EXPIRY_DATE != None,
-        Vehicle.PERMIT_EXPIRY_DATE <= next_30_days
+        Vehicle.PERMIT_EXPIRY_DATE >= today,
+        Vehicle.PERMIT_EXPIRY_DATE <= next_15_days
     ).count()
 
     insurance_due = db.query(
         Vehicle
     ).filter(
-        Vehicle.INSURANCE_EXPIRY != None,
-        Vehicle.INSURANCE_EXPIRY <= next_30_days
+        Vehicle.INSURANCE_EXPIRY >= today,
+        Vehicle.INSURANCE_EXPIRY <= next_15_days
     ).count()
 
     return {
@@ -67,15 +67,15 @@ def get_fc_due_vehicles(
 
     today = date.today()
 
-    next_30_days = (
-        today + timedelta(days=30)
+    next_15_days = (
+        today + timedelta(days=15)
     )
 
     vehicles = db.query(
         Vehicle
     ).filter(
-        Vehicle.FC_EXPIRY_DATE != None,
-        Vehicle.FC_EXPIRY_DATE <= next_30_days
+        Vehicle.FC_EXPIRY_DATE >= today,
+        Vehicle.FC_EXPIRY_DATE <= next_15_days
     ).all()
 
     return vehicles
@@ -87,15 +87,15 @@ def get_permit_due_vehicles(
 
     today = date.today()
 
-    next_30_days = (
-        today + timedelta(days=30)
+    next_15_days = (
+        today + timedelta(days=15)
     )
 
     vehicles = db.query(
         Vehicle
     ).filter(
-        Vehicle.PERMIT_EXPIRY_DATE != None,
-        Vehicle.PERMIT_EXPIRY_DATE <= next_30_days
+        Vehicle.PERMIT_EXPIRY_DATE >= today,
+        Vehicle.PERMIT_EXPIRY_DATE <= next_15_days
     ).all()
 
     return vehicles
@@ -107,15 +107,15 @@ def get_insurance_due_vehicles(
 
     today = date.today()
     
-    next_30_days = (
-        today + timedelta(days=30)
+    next_15_days = (
+        today + timedelta(days=15)
     )
 
     vehicles = db.query(
         Vehicle
     ).filter(
-        Vehicle.INSURANCE_EXPIRY != None,
-        Vehicle.INSURANCE_EXPIRY <= next_30_days
+        Vehicle.INSURANCE_EXPIRY >= today,
+        Vehicle.INSURANCE_EXPIRY <= next_15_days
     ).all()
 
     return vehicles
@@ -127,15 +127,15 @@ def get_np_due_vehicles(
 
     today = date.today()
 
-    next_30_days = (
-        today + timedelta(days=30)
+    next_15_days = (
+        today + timedelta(days=15)
     )
 
     vehicles = db.query(
         Vehicle
     ).filter(
-        Vehicle.NP_EXPIRY_DATE != None,
-        Vehicle.NP_EXPIRY_DATE <= next_30_days
+        Vehicle.NP_EXPIRY_DATE >= today,
+        Vehicle.NP_EXPIRY_DATE <= next_15_days
     ).all()
 
     return vehicles    

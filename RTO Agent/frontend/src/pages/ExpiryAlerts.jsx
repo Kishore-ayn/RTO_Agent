@@ -172,47 +172,53 @@ export default function ExpiryAlerts() {
       width: 180,
 
       renderCell: (params) => {
-
         let expiryDate = null;
 
         if (tab === 0)
-          expiryDate =
-            params.row.FC_EXPIRY_DATE;
+          expiryDate = params.row.FC_EXPIRY_DATE;
 
         if (tab === 1)
-          expiryDate =
-            params.row.PERMIT_EXPIRY_DATE;
+          expiryDate = params.row.PERMIT_EXPIRY_DATE;
 
         if (tab === 2)
-          expiryDate =
-            params.row.INSURANCE_EXPIRY;
+          expiryDate = params.row.INSURANCE_EXPIRY;
 
         if (tab === 3)
-          expiryDate =
-            params.row.NP_EXPIRY_DATE;
+          expiryDate = params.row.NP_EXPIRY_DATE;
 
-        if (!expiryDate)
-          return "No Date";
-
-        const today =
-          new Date();
-
-        const expiry =
-          new Date(expiryDate);
-
-        const diffDays =
-          Math.ceil(
-            (expiry - today) /
-            (1000 * 60 * 60 * 24)
-          );
-
-        if (diffDays < 0) {
-
+        if (!expiryDate) {
           return (
             <span
               style={{
-                color: "red",
-                fontWeight: "bold",
+                padding: "4px 12px",
+                borderRadius: "999px",
+                backgroundColor: "#F1F5F9",
+                color: "#64748B",
+                fontWeight: 600,
+              }}
+            >
+              No Date
+            </span>
+          );
+        }
+
+        const today = new Date();
+        const expiry = new Date(expiryDate);
+
+        const diffDays = Math.ceil(
+          (expiry - today) /
+            (1000 * 60 * 60 * 24)
+        );
+
+        if (diffDays < 0) {
+          return (
+            <span
+              style={{
+                padding: "4px 12px",
+                borderRadius: "999px",
+                backgroundColor: "#FEE2E2",
+                color: "#DC2626",
+                fontWeight: 700,
               }}
             >
               Expired
@@ -221,12 +227,14 @@ export default function ExpiryAlerts() {
         }
 
         if (diffDays <= 7) {
-
           return (
             <span
               style={{
-                color: "orange",
-                fontWeight: "bold",
+                padding: "4px 12px",
+                borderRadius: "999px",
+                backgroundColor: "#FFEDD5",
+                color: "#EA580C",
+                fontWeight: 700,
               }}
             >
               {diffDays} Days Left
@@ -237,14 +245,17 @@ export default function ExpiryAlerts() {
         return (
           <span
             style={{
-              color: "#d4a017",
-              fontWeight: "bold",
+              padding: "4px 12px",
+              borderRadius: "999px",
+              backgroundColor: "#EDE9FE",
+              color: "#7C3AED",
+              fontWeight: 700,
             }}
           >
             {diffDays} Days Left
           </span>
         );
-      },
+      }
     }
   ];
 

@@ -33,14 +33,25 @@ export default function VehicleList() {
 
   const loadVehicles = async () => {
     try {
-      const data =
-        await getVehicles();
+      const data = await getVehicles();
+
+      console.log("Vehicles API Response:", data);
 
       setVehicles(data);
     } catch (error) {
-      console.error(error);
+      console.error("Vehicle List Error:", error);
+
+      console.log(
+        "Response:",
+        error.response?.data
+      );
+
+      console.log(
+        "Status:",
+        error.response?.status
+      );
     }
-  };
+    };
 
   const handleDelete = async (
     vehicleId
