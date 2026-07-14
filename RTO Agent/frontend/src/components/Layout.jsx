@@ -1,7 +1,7 @@
 import {  Box,  Drawer,  List,  ListItem,  ListItemButton,  ListItemText, ListItemIcon,} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import {  DashboardCustomize,  DirectionsCar,  ListAlt,  Warning,  } from "@mui/icons-material";
+import {  DashboardCustomize,  DirectionsCar,  ListAlt,  Warning,  LockReset,  } from "@mui/icons-material";
 import {  useLocation,} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
@@ -252,6 +252,52 @@ export default function Layout({ children }) {
 
                   <ListItemText
                     primary="Expiry Alerts"
+                  />
+
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              selected={
+                location.pathname ===
+                "/change-password"
+              }
+              onClick={() =>
+                navigate(
+                  "/change-password"
+                )
+              }
+              sx={{
+                mx: 1,
+                mb: 1,
+                borderRadius: 3,
+
+                "&.Mui-selected": {
+                  background:
+                    "linear-gradient(135deg,#7C3AED,#A855F7)",
+                  color: "#fff",
+                },
+
+                "&.Mui-selected .MuiListItemIcon-root":
+                  {
+                    color: "#fff",
+                  },
+              }}
+            >
+
+              <ListItemIcon
+                sx={{
+                  minWidth: 40,
+                  justifyContent: "center",
+                }}
+              >
+                <LockReset />
+              </ListItemIcon>
+
+
+                  <ListItemText
+                    primary="Change Password"
                   />
 
             </ListItemButton>

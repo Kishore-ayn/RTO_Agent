@@ -8,10 +8,14 @@ from app.database.db import get_db
 from app.models.user import User
 
 from app.schemas.user import LoginRequest
+from app.schemas.user import ChangePasswordRequest
 
 from app.utils.security import verify_password
+from app.utils.security import hash_password
 
 from app.utils.jwt_handler import create_access_token
+
+from app.utils.auth import get_current_user
 
 router = APIRouter(
     prefix="/auth",
@@ -32,23 +36,11 @@ def login(
         )
         .first()
     )
-    print("Username entered:", login_data.username)
-    print("User found:", user)
     if user is None:
         return {
             "message": "Invalid Username or Password"
         }
 
-    print("Password entered:", login_data.password)
-    print("Stored hash:", user.PASSWORD_HASH)
-    print(
-    "Verify result:",
-    verify_password(
-        login_data.password,
-        user.PASSWORD_HASH
-    )
-)
-    
     if not verify_password(
         login_data.password,
         user.PASSWORD_HASH
@@ -66,4 +58,39 @@ def login(
     return {
         "access_token": token,
         "token_type": "bearer"
+    }
+
+
+@router.post("/change-password")
+def change_password(
+    payload: ChangePasswordRequest,
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user)
+):
+
+    user = (
+        db.query(User)
+        .filter(User.USERNAME == current_user)
+        .first()
+    )
+
+    if user is None:
+        return {
+            "message": "User Not Found"
+        }
+
+    if not verify_password(
+        payload.old_password,
+        user.PASSWORD_HASH
+    ):
+        return {
+            "message": "Current Password is Incorrect"
+        }
+
+    user.PASSWORD_HASH = hash_password(payload.new_password)
+
+    db.commit()
+
+    return {
+        "message": "Password Changed Successfully"
     }

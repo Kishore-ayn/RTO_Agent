@@ -3,11 +3,14 @@ import {
   Paper,
   Tabs,
   Tab,
+  Button,
 } from "@mui/material";
 
 import {
   DataGrid,
 } from "@mui/x-data-grid";
+
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 import {
   useEffect,
@@ -70,6 +73,43 @@ export default function ExpiryAlerts() {
     loadFcDue();
 
   }, []);
+
+  const getExpiryDate = (row) => {
+    if (tab === 0) return row.FC_EXPIRY_DATE;
+    if (tab === 1) return row.PERMIT_EXPIRY_DATE;
+    if (tab === 2) return row.INSURANCE_EXPIRY;
+    if (tab === 3) return row.NP_EXPIRY_DATE;
+    return null;
+  };
+
+  const getDocLabel = () => {
+    if (tab === 0) return "FC (Fitness Certificate)";
+    if (tab === 1) return "Permit";
+    if (tab === 2) return "Insurance";
+    if (tab === 3) return "NP (National Permit)";
+    return "document";
+  };
+
+  const sendWhatsApp = (row) => {
+    const digits = String(row.OWNER_WHATSAPP || "").replace(/\D/g, "");
+    const phone = digits.length === 10 ? `91${digits}` : digits;
+
+    const expiryDate = getExpiryDate(row);
+    const dateText = expiryDate
+      ? new Date(expiryDate).toLocaleDateString("en-IN")
+      : "N/A";
+
+    const message =
+      `Hello ${row.OWNER_NAME || "Sir/Madam"}, this is a reminder from ` +
+      `Prakash Transport that the ${getDocLabel()} of your vehicle ` +
+      `${row.VEHICLE_NUMBER} is expiring on ${dateText}. Please renew it ` +
+      `at the earliest to avoid any inconvenience. Thank you.`;
+
+    window.open(
+      `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+  };
 
   const loadFcDue = async () => {
     const data =
@@ -149,22 +189,7 @@ export default function ExpiryAlerts() {
       headerName: "Expiry Date",
       width: 150,
 
-      valueGetter: (value, row) => {
-
-        if (tab === 0)
-          return row.FC_EXPIRY_DATE;
-
-        if (tab === 1)
-          return row.PERMIT_EXPIRY_DATE;
-
-        if (tab === 2)
-          return row.INSURANCE_EXPIRY;
-
-        if (tab === 3)
-          return row.NP_EXPIRY_DATE;
-
-        return "";
-      },
+      valueGetter: (value, row) => getExpiryDate(row) || "",
     },
     {
       field: "status",
@@ -172,19 +197,7 @@ export default function ExpiryAlerts() {
       width: 180,
 
       renderCell: (params) => {
-        let expiryDate = null;
-
-        if (tab === 0)
-          expiryDate = params.row.FC_EXPIRY_DATE;
-
-        if (tab === 1)
-          expiryDate = params.row.PERMIT_EXPIRY_DATE;
-
-        if (tab === 2)
-          expiryDate = params.row.INSURANCE_EXPIRY;
-
-        if (tab === 3)
-          expiryDate = params.row.NP_EXPIRY_DATE;
+        const expiryDate = getExpiryDate(params.row);
 
         if (!expiryDate) {
           return (
@@ -256,7 +269,50 @@ export default function ExpiryAlerts() {
           </span>
         );
       }
-    }
+    },
+    {
+      field: "whatsapp",
+      headerName: "Notify Owner",
+      width: 160,
+      sortable: false,
+      filterable: false,
+
+      renderCell: (params) => {
+        if (!params.row.OWNER_WHATSAPP) {
+          return (
+            <span
+              style={{
+                color: "#94A3B8",
+                fontSize: "0.8rem",
+              }}
+            >
+              No Number
+            </span>
+          );
+        }
+
+        return (
+          <Button
+            size="small"
+            variant="outlined"
+            startIcon={<WhatsAppIcon />}
+            onClick={() => sendWhatsApp(params.row)}
+            sx={{
+              borderColor: "#25D366",
+              color: "#25D366",
+              fontWeight: 700,
+
+              "&:hover": {
+                backgroundColor: "#25D36615",
+                borderColor: "#25D366",
+              },
+            }}
+          >
+            Notify
+          </Button>
+        );
+      },
+    },
   ];
 
   return (

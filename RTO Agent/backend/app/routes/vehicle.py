@@ -16,7 +16,7 @@ router = APIRouter(
 )
 
 
-@router.post("/")
+@router.post("")
 def create_vehicle(
     vehicle: VehicleCreate,
     db: Session = Depends(get_db),
@@ -50,7 +50,7 @@ def create_vehicle(
         "vehicle_id": new_vehicle.VEHICLE_ID
     }
     
-@router.get("/")
+@router.get("")
 def get_vehicles(
     db: Session = Depends(get_db),
     current_user: str = Depends(get_current_user)

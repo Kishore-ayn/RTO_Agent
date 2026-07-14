@@ -1,4 +1,7 @@
+from pathlib import Path
+
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 
 from app.database.db import test_connection
 
@@ -8,6 +11,12 @@ from app.models.vehicle import Vehicle
 from app.models.user import User
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import dashboard
+
+FRONTEND_DIST = (
+    Path(__file__).resolve().parent.parent.parent
+    / "frontend"
+    / "dist"
+)
 
 app = FastAPI()
 
@@ -32,8 +41,19 @@ app.include_router(auth_router)
 app.include_router(dashboard.router)
 
 
-@app.get("/")
-def home():
-    return {
-        "message": "RTO Application Running"
-    }
+@app.get("/{full_path:path}")
+def serve_frontend(full_path: str):
+
+    requested_path = (
+        FRONTEND_DIST / full_path
+    ).resolve()
+
+    if (
+        requested_path.is_file()
+        and FRONTEND_DIST.resolve() in requested_path.parents
+    ):
+        return FileResponse(requested_path)
+
+    return FileResponse(
+        FRONTEND_DIST / "index.html"
+    )

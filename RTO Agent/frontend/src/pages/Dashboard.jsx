@@ -185,10 +185,12 @@ export default function Dashboard() {
     try {
       const vehicles = await getVehicles();
 
-      console.log(vehicles);
+      const sortedVehicles = [...vehicles].sort(
+        (a, b) => b.VEHICLE_ID - a.VEHICLE_ID
+      );
 
       setRecentVehicles(
-        vehicles.slice(0, 5)
+        sortedVehicles.slice(0, 5)
       );
     } catch (error) {
       console.error(

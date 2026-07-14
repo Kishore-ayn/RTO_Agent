@@ -111,11 +111,19 @@ export default function VehicleForm() {
   const handleSubmit = async () => {
   try {
 
+    const payload = {
+      ...formData,
+      FC_EXPIRY_DATE: formData.FC_EXPIRY_DATE || null,
+      NP_EXPIRY_DATE: formData.NP_EXPIRY_DATE || null,
+      PERMIT_EXPIRY_DATE: formData.PERMIT_EXPIRY_DATE || null,
+      INSURANCE_EXPIRY: formData.INSURANCE_EXPIRY || null,
+    };
+
     if (isEditMode) {
 
       await updateVehicle(
         id,
-        formData
+        payload
       );
 
       alert(
@@ -125,7 +133,7 @@ export default function VehicleForm() {
     } else {
 
       await createVehicle(
-        formData
+        payload
       );
 
       alert(
