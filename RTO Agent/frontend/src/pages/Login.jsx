@@ -35,6 +35,13 @@ export default function Login() {
           password,
         });
 
+      if (!response.access_token) {
+        alert(
+          response.message || "Login Failed"
+        );
+        return;
+      }
+
       login(
         response.access_token
       );

@@ -7,8 +7,11 @@ from app.database.db import test_connection
 
 from app.routes.vehicle import router as vehicle_router
 from app.routes.auth import router as auth_router
+from app.routes.invoice import router as invoice_router
 from app.models.vehicle import Vehicle
 from app.models.user import User
+from app.models.invoice import Invoice
+from app.models.invoice_item import InvoiceItem
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import dashboard
 
@@ -38,6 +41,7 @@ def startup_event():
 
 app.include_router(vehicle_router)
 app.include_router(auth_router)
+app.include_router(invoice_router)
 app.include_router(dashboard.router)
 
 

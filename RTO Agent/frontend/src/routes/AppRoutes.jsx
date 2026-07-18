@@ -6,6 +6,9 @@ import VehicleForm from "../pages/VehicleForm";
 import VehicleList from "../pages/VehicleList";
 import ExpiryAlerts from "../pages/ExpiryAlerts";
 import ChangePassword from "../pages/ChangePassword";
+import InvoiceForm from "../pages/InvoiceForm";
+import InvoiceList from "../pages/InvoiceList";
+import InvoiceView from "../pages/InvoiceView";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -66,6 +69,42 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <ChangePassword />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/invoice-entry"
+        element={
+          <ProtectedRoute>
+            <InvoiceForm />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/invoice-entry/:id"
+        element={
+          <ProtectedRoute>
+            <InvoiceForm />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/invoice-list"
+        element={
+          <ProtectedRoute>
+            <InvoiceList />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/invoice-view/:id"
+        element={
+          <ProtectedRoute>
+            <InvoiceView />
           </ProtectedRoute>
         }
       />

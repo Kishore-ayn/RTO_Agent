@@ -1,6 +1,7 @@
 """
 One-time setup for a brand new machine: creates the database (if missing),
-creates the USERS/VEHICLES tables, and creates a default login.
+creates the USERS/VEHICLES/INVOICES/INVOICE_ITEMS tables, and creates
+a default login.
 
 Run once, after installing SQL Server + the ODBC driver and filling in .env:
     venv\\Scripts\\activate
@@ -34,10 +35,12 @@ print(f"Database '{DB_DATABASE}' is ready.")
 from app.database.db import Base, engine, SessionLocal
 from app.models.user import User
 from app.models.vehicle import Vehicle
+from app.models.invoice import Invoice
+from app.models.invoice_item import InvoiceItem
 from app.utils.security import hash_password
 
 Base.metadata.create_all(bind=engine)
-print("Tables created (USERS, VEHICLES).")
+print("Tables created (USERS, VEHICLES, INVOICES, INVOICE_ITEMS).")
 
 db = SessionLocal()
 existing = db.query(User).filter(User.USERNAME == "admin").first()
